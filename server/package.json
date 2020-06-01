@@ -1,0 +1,23 @@
+{
+  "name": "user-server",
+  "version": "1",
+  "description": "user management back end",
+  "main": "index.js",
+  "author": "Zvonimir Planinic",
+  "license": "MIT",
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "nodemon src/index.ts",
+    "build": "tsc -p ."
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.6",
+    "@types/node": "^14.0.6",
+    "nodemon": "^2.0.4",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.3"
+  }
+}
