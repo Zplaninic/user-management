@@ -1,12 +1,19 @@
 import express, {Application, Request, Response, NextFunction} from 'express'
+import config from './config/base'
+import initializeDB from './database/initialize'
+import { json, urlencoded } from 'body-parser'
+import setupRoutes from './routes'
 
 const app: Application = express()
 
+app.disable('x-powered-by');
+app.use(json())
+app.use(urlencoded({ extended: true }))
 
-app.get('/', (req: Request, res: Response, next: NextFunction) => {
-      res.send('Server started')
-})
+setupRoutes(app)
 
-export const start = () => {
-    app.listen(5000, () => console.log('Server running'));
+export const start = async () => {
+    await initializeDB();  
+    app.listen(config.port, () => console.log('Server running'));
 }
+
