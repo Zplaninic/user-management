@@ -1,9 +1,9 @@
 interface baseConfigInterface {
-    port: number;
+    port: number
 }
 
 const baseConfig: baseConfigInterface = {
-    port: 5000
+    port: 5000,
 }
 
-export default baseConfig;
+export default baseConfig

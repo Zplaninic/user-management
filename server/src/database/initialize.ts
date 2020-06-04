@@ -1,19 +1,18 @@
-const fs = require('fs');
-const readline = require('readline');
+const fs = require('fs')
+const readline = require('readline')
 import db from './utils'
 
 async function initializeDB(): Promise<any> {
-    console.log(__dirname)
-    var filename = __dirname+'/employees.txt'
+    var filename = __dirname + '/employees.txt'
 
     const fileStream = fs.createReadStream(filename)
 
     const rl = readline.createInterface({
         input: fileStream,
-        crlfDelay: Infinity
+        crlfDelay: Infinity,
     })
 
-    rl.on('line', (line:string) => {
+    rl.on('line', (line: string) => {
         const splitLine = line.split(',')
 
         const user = {
@@ -23,12 +22,9 @@ async function initializeDB(): Promise<any> {
             address: splitLine[3],
             number: splitLine[4],
             email: splitLine[5],
-            birthday: splitLine[6]
+            birthday: splitLine[6],
         }
-       db.users.push(user)
-      });
-
+        db.users.push(user)
+    })
 }
 export default initializeDB
-
-
