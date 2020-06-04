@@ -1,69 +1,63 @@
-import React, {useState, useEffect} from 'react';
-import useDebounce from '../hooks/useDebounce'
-import axios from 'axios'
+import React, { Dispatch, SetStateAction} from 'react';
+import styled from 'styled-components'
 
-// export interface Props {
-//     id: number;
-//     onClose(): void;
-// }
 
-async function searchUsers(search:string) {
-    try {
-        const result = await axios.get(`http://localhost:5000/api/users/search/?email=${search}`);
+export interface Props {
+    searchInput: string;
+    setSearchInput: Dispatch<SetStateAction<string>>;
+}
 
-        const resultJson = await result.data.result
-        return resultJson;
-    }
-    catch (error) {
-        console.error(error);
-        return [];
-    }
-  }
-
-const Search: React.FC = () => {
-
-    const [searchInput, setSearchInput] = useState<string>('')
-    const [result, setResult] = useState<any>([])
-    const [isSearching, setIsSearching] = useState(false);
-
-    const debouncedInput = useDebounce(searchInput, 500)
-
-    console.log(result)
-
-    useEffect(
-        () => {
-          if (debouncedInput) {
-            setIsSearching(true);
-            searchUsers(debouncedInput).then(results => {
-                console.log(results)
-              setIsSearching(false);
-              setResult(results);
-            }); 
-          } else {
-            setResult([]);
-          }
-        },
-        [debouncedInput]
-      );
+const Search: React.FC<Props> = ({searchInput, setSearchInput}) => {
 
 
     return (
-        <div>
-            <h4>
-                Search
-            </h4>
+        <SearchContainer>
             <form>
                 <label>Search by email</label>
                 <input
                 type="text"
                 name="email"
-                placeholder="write Email"
+                placeholder="email"
                 onChange={e => setSearchInput(e.target.value)}
  
           />
             </form>
-        </div>
+        </SearchContainer>
     )
 }
+
+const SearchContainer = styled.div `
+    grid-column-start: 2;
+    grid-column-end: 3;
+    background-color: #64B6AC;
+    border-radius:5px;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    form {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        label {
+            margin-left: 10px;
+            font-size: 20px;
+            color: #fff;
+        }
+
+        input {
+            outline: none;
+            border: none;   
+            margin-left: 10px;
+            width: 59%;
+            line-height: 28px;
+            border-radius: 5px;
+
+        }
+    }
+`
+
 
 export default Search

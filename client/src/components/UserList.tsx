@@ -1,85 +1,135 @@
 import React, {useState, useContext, useEffect} from 'react';
-import useFetchData from '../hooks/useFetchData'
 import User from './User'
 import {GlobalContext} from '../context/GlobalState'
+import useDebounce from '../hooks/useDebounce'
+import Search from './Search'
+import styled from 'styled-components'
 
 const UserList: React.FC<{}> = () => {
     const [page, setPage] = useState<number>(1);
     const [filter, setFilter] = useState<string>('name')
     const [sort, setSort] = useState<string>('ascending')
-    const [id, setid] = useState<number | null>()
+    const [id, setid] = useState<string | null>('')
+    const [searchInput, setSearchInput] = useState<string>('')
 
-    const { reload, data, getUsers, loading} = useContext(GlobalContext);
+    const debouncedInput = useDebounce(searchInput, 500)
+
+    const { reload, data, getUsers, loading } = useContext(GlobalContext);
 
     useEffect(() => {
-        getUsers(page, filter, sort);
-    }, [page, filter, sort, reload]);   
+        getUsers(page, filter, sort, debouncedInput);
+    }, [page, filter, sort, reload, debouncedInput]);   
 
     const pager = data?.pager ?? {}
     const users = data?.users ?? []
      
     return (
-        <div>
-            <div className="table-body">
+        <UserListContainer >
+            <Table className="table-body">
                 {loading === true && <div>Loading...</div>}
                 {loading === false &&
                 users.map(user => {
-                    return <div key={user.id} 
-                            onClick={() => setid(parseInt(user.id))}>{user.name} {user.surname}</div>
-                })
-                }
-
-            </div>
-            <div>
+                    return <div className='row' key={user.id} 
+                            onClick={() => setid(user.id)}>
+                                <p className="cell">{user.name}</p>
+                                <p className="cell">{user.surname}</p>
+                                <p className="cell">{user.email}</p>
+                            </div>
+                })}
+            </Table>
+            <PagesContainer>
                 {loading === false &&
                     pager.pages.map((page) => {
-                        return <button key={page} onClick={(e) => setPage(page)}>{page}</button>
+                        return <ButtonPages key={page} onClick={(e) => setPage(page)}>{page}</ButtonPages>
                     })
-                }
-            </div>
-            <div>
-                <button key="name" onClick={() => setFilter('name')}>Sort by name</button>
-                <button key="surname" onClick={() => setFilter('surname')}>Sort by surname</button>
-                <button key="ascending" onClick={() => setSort('ascending')}>Ascending</button>
-                <button key="descending" onClick={() => setSort('descending')}>Descending</button>
-            </div>
-            <div>
+                }   
+            </PagesContainer>
+            <ButtonsContainer>
+                <ButtonSort key="name" onClick={() => setFilter('name')}>Sort by name</ButtonSort>
+                <ButtonSort key="surname" onClick={() => setFilter('surname')}>Sort by surname</ButtonSort>
+                <ButtonSort key="ascending" onClick={() => setSort('ascending')}>Ascending</ButtonSort>
+                <ButtonSort key="descending" onClick={() => setSort('descending')}>Descending</ButtonSort>
+            </ButtonsContainer>
+            <Search  searchInput={searchInput} setSearchInput={setSearchInput}/>
             {!!id && <User id={id}  onClose={() => setid(null)}/>}
-            {/* onClose={() => setid(null)} */}
-            </div>
-            {/* <div>
-                {users.status === 'loaded' && 
-                    <ul className="pagination">
-                    <li className={`page-item first-item ${users.payload.data.pager.currentPage === 1 ? 'disabled' : ''}`}>
-                        <button className="page-link"> First</button>
-                    </li>
-                    <li className={`page-item previous-item ${users.payload.data.pager.currentPage === 1 ? 'disabled' : ''}`}>
-                        <button className="page-link">Previous</button>
-                    </li>
-                    {users.payload.data.pager.pages.map(page =>
-                        <li key={page} className={`page-item number-item ${users.payload.data.pager.currentPage === page ? 'active' : ''}`}>
-                            <button className="page-link">{page}</button>
-                        </li>
-                    )}
-                    <li className={`page-item next-item ${users.payload.data.pager.currentPage === users.payload.data.pager.totalPages ? 'disabled' : ''}`}>
-                        <button className="page-link">Next</button>
-                    </li>
-                    <li className={`page-item last-item ${users.payload.data.pager.currentPage === users.payload.data.pager.totalPages ? 'disabled' : ''}`}>
-                        <button className="page-link">Last</button>
-                    </li>
-                </ul>
-                }
-
-            </div> */}
-            {/* <div> 
-                <div onClick={nextPage}> Next Page  </div>
-                <div onClick={previousPage}> Previous page</div> 
-            </div> */}
-                            {/* {users.status === 'error' && (
-                <div>There is an error on our side, we are checking it</div>
-                )} */}
-        </div>
+        </UserListContainer>
     )
 }
+
+
+
+const UserListContainer = styled.div `
+    grid-column-start: 1;
+    grid-column-end: 2;
+    gap: 20px;
+
+    display: grid;
+    grid-template-columns: 0.7fr 1.3fr;
+`
+
+const PagesContainer = styled.div `
+    grid-column-start: 2;
+    grid-column-end: 3;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
+const ButtonPages = styled.button `
+    margin-right: 25px;
+    background-color: #5D737E;
+    padding: 7px;
+    border:none;
+    border-radius: 5px;
+    color: #fff;
+`
+
+const ButtonsContainer = styled.div`
+    grid-column-start: 2;
+    grid-column-end: 3;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
+const ButtonSort = styled.button `
+    margin-right: 25px;
+    background-color: #5D737E;
+    padding: 7px;
+    border:none;
+    border-radius: 5px;
+    color: #fff;
+`
+
+const Table = styled.div `
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 3;
+    min-height: 350px;
+    height: 100%;
+    width: 100%;
+    display: table;
+
+    .row {
+        display: table-row;
+        background-color: #FCFFFD;
+        margin:11px;
+        cursor: -webkit-grabbing; cursor: grabbing;
+        
+        .cell {
+            display: table-cell;
+            font-size: 15px;
+            line-height: 25px;
+            width: 33%;
+            margin: 11px;
+            border-bottom: 1px solid;
+            vertical-align: middle;
+            max-height: 230px;
+        }
+    }
+`
 
 export default UserList
