@@ -3,6 +3,7 @@ import AppReducer from './AppReducer'
 import axios from 'axios';
 import {Pager} from '../types/Pager'
 import { UserInterface } from '../types/UserInterface'
+import config from '../config/config'
 
 interface Users {
     data: {
@@ -68,9 +69,9 @@ type Props = {
 export const GlobalProvider = ({children}:Props) => {
     const [state, dispatch] = useReducer(AppReducer, initialState)
 
-    async function getUsers(page:number, filter:string, sort:string) {
+    async function getUsers(page:number, filter:string, sort:string, email:string) {
         try {
-            const res:Users = await axios.get(`http://localhost:5000/api/users/?page=${page}&filter=${filter}&sort=${sort}`)
+            const res:Users = await axios.get(`${config.port}/api/users/?page=${page}&filter=${filter}&sort=${sort}&email=${email}`)
             dispatch({
                 type: 'GET_USERS',
                 payload: res.data
@@ -86,7 +87,7 @@ export const GlobalProvider = ({children}:Props) => {
 
     async function addUser(user:UserInterface, id:string) {
         try {
-            const res:any = await axios.post(`http://localhost:5000/api/users/${id}`, user)
+            const res:any = await axios.post(`${config.port}/api/users/${id}`, user)
             dispatch({
                 type: 'ADD_USER',
                 payload: res.data
