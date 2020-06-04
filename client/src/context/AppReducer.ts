@@ -1,26 +1,23 @@
-
-export default (state:any, action:any) => {
-
-    switch(action.type) {
-        case 'GET_USERS': 
+export default (state: any, action: any) => {
+    switch (action.type) {
+        case 'GET_USERS':
             return {
                 ...state,
                 loading: false,
                 reload: false,
-                users: action.payload.users
+                users: action.payload.users,
             }
-        case 'ADD_USER': 
-
+        case 'ADD_USER':
             return {
                 ...state,
-                reload: true
+                reload: true,
             }
         case 'ERROR':
             return {
                 ...state,
-                error: action.payload
+                error: action.payload,
             }
-        default: 
-            return state;
+        default:
+            return state
     }
 }

@@ -1,31 +1,30 @@
-import React from 'react';
+import React from 'react'
 import UserList from './components/UserList'
 import CreateUser from './components/CreateUser'
-import {GlobalProvider} from './context/GlobalState'
+import { GlobalProvider } from './context/GlobalState'
 import styled from 'styled-components'
 import Header from './components/Header'
 
-
-import './App.css';
+import './App.css'
 
 const App: React.FC = () => {
-  return (
-      <GlobalProvider>
-        <AppContainer>
-          <Header />
-          <UserList />
-          <CreateUser /> 
-        </AppContainer>
-      </GlobalProvider>
+    return (
+        <GlobalProvider>
+            <AppContainer>
+                <Header />
+                <UserList />
+                <CreateUser />
+            </AppContainer>
+        </GlobalProvider>
     )
 }
 
-export default App;
+export default App
 
-const AppContainer = styled.div `
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  grid-template-rows: 50px auto;
-  gap: 20px;
-  height: 100vh;
+const AppContainer = styled.div`
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 50px auto;
+    gap: 20px;
+    height: 100vh;
 `

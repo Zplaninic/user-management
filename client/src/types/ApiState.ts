@@ -18,14 +18,8 @@ interface EndData {
 }
 
 interface Error {
-    status: 'error';
-    error: Error;
+    status: 'error'
+    error: Error
 }
 
-
-export type ApiState<T> = 
-    | Init
-    | Loading
-    | Loaded<T>
-    | EndData
-    | Error;
+export type ApiState<T> = Init | Loading | Loaded<T> | EndData | Error
