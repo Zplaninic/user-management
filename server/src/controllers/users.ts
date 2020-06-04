@@ -1,18 +1,22 @@
 import db from '../database/utils'
 import { Request, Response } from 'express'
+import { initialPager, initialUser } from '../config/initial'
 
 const getUsers = async (req: Request | undefined, res: Response) => {
-    const page: any = req?.query.page
-    const filter: any = req?.query.filter
-    const sort: any = req?.query.sort
+    const page: any = req?.query.page ?? ''
+    const filter: any = req?.query.filter ?? ''
+    const sort: any = req?.query.sort ?? ''
     const param: any = req?.query.email ?? ''
 
     try {
+        if (!page && !filter && !sort && !param) {
+            return res.status(200).json({ users: [initialUser], pager: initialPager })
+        }
         const users = await db.getUsers(page, filter, sort, param)
         return res.status(200).json({ users })
     } catch (e) {
         console.error(e)
-        res.status(404).send()
+        res.status(404).send({ users: [initialUser], pager: initialPager })
     }
 }
 

@@ -1,10 +1,13 @@
-import UserInterface from '../types/UserInterface'
-import { sortAscending, sortDescending, filterUser } from '../utils/helper'
 import paginate from 'jw-paginate'
+import UserInterface from '../types/UserInterface'
+import Pager from '../types/Pager'
+import Database from '../types/Database'
+import { sortAscending, sortDescending, filterUser } from '../utils/helper'
+import { initialPager, initialUser } from '../config/initial'
 
 const users: Array<UserInterface> = []
 
-const db = {
+const db: Database = {
     users,
     getUsers,
     getUser,
@@ -22,26 +25,32 @@ async function getUsers(
     const pageSize: number = 8
 
     if (sort === 'ascending') {
-        const filteredUsers = filterUser(db.users, 'email', param)
+        const filteredUsers: UserInterface[] = filterUser(db.users, 'email', param)
 
-        const sortedUsers = sortAscending(filteredUsers, filter)
+        const sortedUsers: UserInterface[] = sortAscending(filteredUsers, filter)
 
-        const pager = paginate(sortedUsers.length, currentPage, pageSize)
-        const users = sortedUsers.slice(pager.startIndex, pager.endIndex + 1)
+        const pager: Pager = paginate(sortedUsers.length, currentPage, pageSize)
+        const users: UserInterface[] = sortedUsers.slice(
+            pager.startIndex,
+            pager.endIndex + 1,
+        )
 
         return { users, pager }
     } else if (sort === 'descending') {
-        const filteredUsers = filterUser(db.users, 'email', param)
+        const filteredUsers: UserInterface[] = filterUser(db.users, 'email', param)
 
-        const sortedUsers = sortDescending(filteredUsers, filter)
+        const sortedUsers: UserInterface[] = sortDescending(filteredUsers, filter)
 
-        const pager = paginate(sortedUsers.length, currentPage, pageSize)
-        const users = sortedUsers.slice(pager.startIndex, pager.endIndex + 1)
+        const pager: Pager = paginate(sortedUsers.length, currentPage, pageSize)
+        const users: UserInterface[] = sortedUsers.slice(
+            pager.startIndex,
+            pager.endIndex + 1,
+        )
 
         return { users, pager }
     }
 
-    return db.users
+    return { users: [initialUser], pager: initialPager }
 }
 
 async function getUser(id: string) {
@@ -49,13 +58,13 @@ async function getUser(id: string) {
 }
 
 async function deleteUser(id: string) {
-    const user = getUser(id)
+    const user: Promise<UserInterface[]> = getUser(id)
     db.users = db.users.filter((user) => user.id !== id)
     return user
 }
 
 async function insertUser(user: UserInterface) {
-    const newUser = user
+    const newUser: UserInterface = user
 
     db.users.push(newUser)
     return newUser

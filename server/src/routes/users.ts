@@ -1,6 +1,7 @@
+import { Router } from 'express'
 import * as userController from '../controllers/users'
 
-function userRoutes(router: any) {
+function userRoutes(router: Router): void {
     router.route('/').get(userController.getUsers)
 
     router

@@ -1,8 +1,8 @@
-import express from 'express'
+import express, { Router } from 'express'
 import userRoutes from './users'
 
 function setupAllRoutes(app: any) {
-    const userRouter = express.Router()
+    const userRouter: Router = express.Router()
     userRoutes(userRouter)
     app.use('/api/users', userRouter)
 }

@@ -94,10 +94,10 @@ export const GlobalProvider = ({ children }: Props) => {
             })
         } catch (err) {
             console.error(err)
-            // dispatch({
-            //     type: 'ERROR',
-            //     payload: err.response.data.error
-            // });
+            dispatch({
+                type: 'ERROR',
+                payload: err.response.data.error,
+            })
         }
     }
 
