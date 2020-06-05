@@ -30,14 +30,22 @@ const User: React.FC<Props> = ({ id, onClose }) => {
 }
 
 const UserContainer = styled.div`
-    grid-column-start: 1;
-    grid-column-end: 2;
-    grid-row-start: 1;
-    grid-row-end: 5;
+    @media (min-width: 1024px) {
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 1;
+        grid-row-end: 5;
+        margin: 0;
+    }
+
     text-align: center;
+    margin-top: 10px;
 
     .user-object {
-        margin: 30px;
+        @media (min-width: 1024px) {
+            margin: 30px;
+        }
+        margin: 20px;
         background-color: #64b6ac;
         border-radius: 10px;
         height: 400px;

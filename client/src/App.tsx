@@ -22,9 +22,14 @@ const App: React.FC = () => {
 export default App
 
 const AppContainer = styled.div`
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    grid-template-rows: 50px auto;
-    gap: 20px;
-    height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+    @media (min-width: 1024px) {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        grid-template-rows: 50px auto;
+        gap: 20px;
+        height: 100vh;
+    }
 `

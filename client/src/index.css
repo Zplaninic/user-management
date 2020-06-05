@@ -23,3 +23,20 @@ body {
 #root {
     margin: 0 auto;
 }
+/* desktop size  */
+@media (min-width: 1024px) {
+    body {
+        width: auto !important;
+        overflow-x: hidden !important;
+        max-width: 2560px;
+        float: none;
+        margin: 0px;
+    }
+}
+
+@media (min-width: 325px) {
+    body {
+        width: 100%;
+        max-width: 767%;
+    }
+}

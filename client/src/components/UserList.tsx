@@ -46,7 +46,7 @@ const UserList: React.FC<{}> = () => {
                 {loading === false &&
                     pager.pages.map((page) => {
                         return (
-                            <ButtonPages key={page} onClick={(e) => setPage(page)}>
+                            <ButtonPages key={page} onClick={() => setPage(page)}>
                                 {page}
                             </ButtonPages>
                         )
@@ -73,21 +73,30 @@ const UserList: React.FC<{}> = () => {
 }
 
 const UserListContainer = styled.div`
-    grid-column-start: 1;
-    grid-column-end: 2;
-    gap: 20px;
+    display: flex;
+    flex-direction: column;
 
-    display: grid;
-    grid-template-columns: 0.7fr 1.3fr;
+    @media (min-width: 1024px) {
+        grid-column-start: 1;
+        grid-column-end: 2;
+        gap: 20px;
+
+        display: grid;
+        grid-template-columns: 0.7fr 1.3fr;
+    }
 `
 
 const PagesContainer = styled.div`
-    grid-column-start: 2;
-    grid-column-end: 3;
+    @media (min-width: 1024px) {
+        grid-column-start: 2;
+        grid-column-end: 3;
+        margin-top: 0;
+    }
 
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 20px;
 `
 
 const ButtonPages = styled.button`
@@ -100,21 +109,40 @@ const ButtonPages = styled.button`
 `
 
 const ButtonsContainer = styled.div`
-    grid-column-start: 2;
-    grid-column-end: 3;
+    @media (min-width: 1024px) {
+        grid-column-start: 2;
+        grid-column-end: 3;
+        margin-top: 0;
+        margin-bottom: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    margin-top: 10px;
+    margin-bottom: 10px;
 
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-wrap: wrap;
 `
 
 const ButtonSort = styled.button`
-    margin-right: 25px;
-    background-color: #5d737e;
-    padding: 7px;
-    border: none;
-    border-radius: 5px;
     color: #fff;
+    background-color: #5d737e;
+    border: none;
+    flex: 0 48%;
+    padding: 8px;
+    margin: 3px;
+    border-radius: 5px;
+
+    @media (min-width: 1024px) {
+        margin-top: 0;
+        margin-bottom: 0;
+        margin-right: 25px;
+        padding: 7px;
+        border-radius: 5px;
+        flex: 0;
+    }
 `
 
 const Table = styled.div`

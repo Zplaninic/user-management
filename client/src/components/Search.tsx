@@ -23,10 +23,15 @@ const Search: React.FC<Props> = ({ searchInput, setSearchInput }) => {
 }
 
 const SearchContainer = styled.div`
-    grid-column-start: 2;
-    grid-column-end: 3;
+    @media (min-width: 1024px) {
+        grid-column-start: 2;
+        grid-column-end: 3;
+        margin: 0;
+    }
+
     background-color: #64b6ac;
     border-radius: 5px;
+    margin: 5px;
 
     display: flex;
     align-items: center;
@@ -47,9 +52,15 @@ const SearchContainer = styled.div`
             outline: none;
             border: none;
             margin-left: 10px;
-            width: 59%;
+            width: 100%;
             line-height: 28px;
             border-radius: 5px;
+            margin-right: 5px;
+
+            @media (min-width: 1024px) {
+                width: 59%;
+                margin-right: 0;
+            }
         }
     }
 `

@@ -10,10 +10,14 @@ const Header: React.FC = () => {
 }
 
 const HeaderContainer = styled.div`
-    grid-column-start: 1;
-    grid-column-end: 3;
-    grid-row-start: 1;
-    grid-row-end: 2;
+    @media (min-width: 1024px) {
+        grid-column-start: 1;
+        grid-column-end: 3;
+        grid-row-start: 1;
+        grid-row-end: 2;
+        text-align: left;
+    }
+    text-align: center;
     background-color: #64b6ac;
 
     div {

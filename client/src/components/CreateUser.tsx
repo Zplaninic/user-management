@@ -90,18 +90,23 @@ const CreateUser: React.FC = () => {
 }
 
 const CreateUserContainer = styled.div`
-    grid-column-start: 2;
-    grid-column-end: 3;
+    @media (min-width: 1024px) {
+        grid-column-start: 2;
+        grid-column-end: 3;
+    }
 
     h4 {
         color: #fff;
     }
     form {
+        @media (min-width: 1024px) {
+            margin: 50px;
+        }
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        margin: 50px;
+        margin: 30px;
         background-color: #64b6ac;
         border-radius: 10px;
         padding-top: 10px;
