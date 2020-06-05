@@ -44,25 +44,50 @@ const UserList: React.FC<{}> = () => {
             </Table>
             <PagesContainer>
                 {loading === false &&
-                    pager.pages.map((page) => {
+                    pager.pages.map((item) => {
                         return (
-                            <ButtonPages key={page} onClick={() => setPage(page)}>
-                                {page}
+                            <ButtonPages
+                                page={page}
+                                clicked={item}
+                                key={item}
+                                onClick={() => setPage(item)}
+                            >
+                                {item}
                             </ButtonPages>
                         )
                     })}
             </PagesContainer>
             <ButtonsContainer>
-                <ButtonSort key="name" onClick={() => setFilter('name')}>
+                <ButtonSort
+                    name="name"
+                    filter={filter}
+                    key="name"
+                    onClick={() => setFilter('name')}
+                >
                     Sort by name
                 </ButtonSort>
-                <ButtonSort key="surname" onClick={() => setFilter('surname')}>
+                <ButtonSort
+                    name="surname"
+                    filter={filter}
+                    key="surname"
+                    onClick={() => setFilter('surname')}
+                >
                     Sort by surname
                 </ButtonSort>
-                <ButtonSort key="ascending" onClick={() => setSort('ascending')}>
+                <ButtonSort
+                    filter={sort}
+                    name="ascending"
+                    key="ascending"
+                    onClick={() => setSort('ascending')}
+                >
                     Ascending
                 </ButtonSort>
-                <ButtonSort key="descending" onClick={() => setSort('descending')}>
+                <ButtonSort
+                    name="descending"
+                    filter={sort}
+                    key="descending"
+                    onClick={() => setSort('descending')}
+                >
                     Descending
                 </ButtonSort>
             </ButtonsContainer>
@@ -98,14 +123,27 @@ const PagesContainer = styled.div`
     justify-content: center;
     margin-top: 20px;
 `
-
-const ButtonPages = styled.button`
+interface Button {
+    key?: string | number | undefined
+    onClick?:
+        | ((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void)
+        | undefined
+    page: number
+    clicked: any
+}
+const ButtonPages = styled.button<Button>`
+    outline: none;
     margin-right: 25px;
     background-color: #5d737e;
     padding: 7px;
     border: none;
     border-radius: 5px;
     color: #fff;
+    ${(props) => {
+        if (props.page === props.clicked) {
+            return 'padding: 6px; border: 1px solid; border-radius: 13px; background-color:#64b6ac; color: #2d353c'
+        }
+    }}
 `
 
 const ButtonsContainer = styled.div`
@@ -126,7 +164,16 @@ const ButtonsContainer = styled.div`
     flex-wrap: wrap;
 `
 
-const ButtonSort = styled.button`
+interface ButtonSort {
+    name: string
+    filter: string
+    key?: string | number | undefined
+    onClick?:
+        | ((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void)
+        | undefined
+}
+const ButtonSort = styled.button<ButtonSort>`
+    outline: none;
     color: #fff;
     background-color: #5d737e;
     border: none;
@@ -134,6 +181,11 @@ const ButtonSort = styled.button`
     padding: 8px;
     margin: 3px;
     border-radius: 5px;
+    ${(props) => {
+        if (props.name === props.filter) {
+            return 'background-color:#64b6ac;'
+        }
+    }}
 
     @media (min-width: 1024px) {
         margin-top: 0;
