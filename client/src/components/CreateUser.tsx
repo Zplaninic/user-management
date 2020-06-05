@@ -40,6 +40,7 @@ const CreateUser: React.FC = () => {
             <form onSubmit={submitForm}>
                 <h4>Create User</h4>
                 <input
+                    required
                     type="text"
                     name="name"
                     placeholder="name"
@@ -47,6 +48,7 @@ const CreateUser: React.FC = () => {
                     onChange={handleChange}
                 />
                 <input
+                    required
                     type="text"
                     name="surname"
                     placeholder="surname"
@@ -61,6 +63,7 @@ const CreateUser: React.FC = () => {
                     onChange={handleChange}
                 />
                 <input
+                    required
                     type="text"
                     name="email"
                     placeholder="email"
